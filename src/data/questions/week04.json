@@ -1,0 +1,231 @@
+{
+  "week": 4,
+  "title": "Disjoint Set Union (DSU) & Offline Time-Reversal",
+  "questions": [
+    {
+      "id": "w04-q001",
+      "week": 4,
+      "topic": "DSU / Complexity",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "With both union-by-rank (or size) and path compression, what is the amortized time per DSU operation on $n$ elements?",
+      "options": ["$O(1)$ exactly", "$O(\\log n)$", "$O(\\alpha(n))$, where $\\alpha$ is the inverse Ackermann function", "$O(\\sqrt{n})$"],
+      "answerIndex": 2,
+      "explanation": "The combination of union-by-rank and path compression gives amortized $O(\\alpha(n))$, which is at most 4 for any astronomically large $n$. It is not literally constant per call, but is effectively constant in practice.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q002",
+      "week": 4,
+      "topic": "DSU / Components",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Start with $7$ isolated vertices $\\{1,\\dots,7\\}$. Apply unions in this order: $(1,2), (2,3), (1,3), (3,4), (5,6), (6,7), (5,7)$. How many connected components remain? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "The unions $(1,2),(2,3),(3,4)$ merge $\\{1,2,3,4\\}$; the union $(1,3)$ is redundant (already connected). The unions $(5,6),(6,7)$ merge $\\{5,6,7\\}$; $(5,7)$ is redundant. Two components remain.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q003",
+      "week": 4,
+      "topic": "DSU / Cycle Detection",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "When adding edges of an undirected graph one at a time with DSU, how do you detect that an edge $(u, v)$ closes a cycle?",
+      "options": [
+        "If `find(u) == find(v)` before adding, the edge is redundant and closes a cycle.",
+        "If `u == v` always.",
+        "If `find(u) != find(v)` before adding.",
+        "Cycles cannot be detected with DSU."
+      ],
+      "answerIndex": 0,
+      "explanation": "If the endpoints already share a component, then $u$ and $v$ are already connected by a path, and adding $(u,v)$ creates a cycle. Otherwise the edge is a bridge within the current forest and should be unioned.",
+      "source": "Week04.md §3"
+    },
+    {
+      "id": "w04-q004",
+      "week": 4,
+      "topic": "DSU / Cycle Detection",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Process edges in this order on vertices $\\{1,2,3,4,5\\}$: $(1,2),(2,3),(3,1),(3,4),(4,5),(5,3)$. How many edges are **redundant** (i.e. close a cycle)? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "$(3,1)$: $1$ and $3$ are already connected via $1-2-3$, so it closes a cycle. $(5,3)$: $5$ and $3$ are already connected via $3-4-5$, so it also closes a cycle. The other four edges are bridges. Redundant edges $= 2$.",
+      "source": "Week04.md §3"
+    },
+    {
+      "id": "w04-q005",
+      "week": 4,
+      "topic": "DSU / Capabilities",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which operations can a standard DSU support efficiently?",
+      "options": [
+        "Find the representative (root) of the set containing an element.",
+        "Union two sets into one.",
+        "Split a set into two.",
+        "Test whether two elements are in the same set."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "Standard DSU supports find, union, and connectivity tests (A, B, D). It does NOT support splitting/deleting from a set (C) — that requires more advanced structures (e.g. offline time-reversal, link-cut trees).",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q006",
+      "week": 4,
+      "topic": "DSU / Pitfalls",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "Why can a naive DSU (always attach the root of one set directly under the other, with no rank/size rule) degenerate to $O(n)$ per find?",
+      "options": [
+        "Because hashing collides.",
+        "Because a sequence of unions can form a long chain of parents (a path of length $n$), so `find` walks the whole chain.",
+        "Because recursion is slow.",
+        "Because arrays cannot hold $n$ elements."
+      ],
+      "answerIndex": 1,
+      "explanation": "Without a balancing rule, unions like `union(1,2), union(2,3), …` can build a linked-list-shaped tree. `find` then walks $O(n)$ parents, making $n$ operations cost $O(n^2)$.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q007",
+      "week": 4,
+      "topic": "DSU / Height Bound",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "With the union-by-size rule (attach the smaller tree under the larger) and NO path compression, what is the maximum possible height of a DSU tree containing $8$ elements? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "Union by size doubles the size of a node's set whenever its depth increases by one, so height is bounded by $\\lfloor \\log_2 n \\rfloor = \\lfloor \\log_2 8 \\rfloor = 3$.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q008",
+      "week": 4,
+      "topic": "Offline Time-Reversal",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "What is the key idea of the offline time-reversal technique for problems that delete edges?",
+      "options": [
+        "Run DSU forward and remember all answers to recompute them.",
+        "Process queries backward in time, turning edge deletions into edge additions, which DSU handles naturally.",
+        "Use a segment tree of DSU rollbacks for every query.",
+        "Binary search the answer."
+      ],
+      "answerIndex": 1,
+      "explanation": "DSU is add-only. If you reverse time, deletions become additions and connectivity answers can be accumulated naturally. (Segment-tree rollback DSU is an alternative for arbitrary online deletion sets, not the simple offline reversal described here.)",
+      "source": "Week04.md §5"
+    },
+    {
+      "id": "w04-q009",
+      "week": 4,
+      "topic": "Offline Time-Reversal",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "Which conditions suit the simple 'reverse the timeline' DSU approach?",
+      "options": [
+        "All queries are known in advance (offline).",
+        "Edges are only ever removed (or only added in the reversed order).",
+        "You need answers to the number of connected components at several points in time.",
+        "You need to answer edge-deletion queries in an online, adversarial order."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Reverse-time DSU requires knowledge of all queries (offline, A), a monotone delete-only/added-in-reverse evolution (B), and it readily answers component-count queries (C). Online adversarial order (D) breaks the technique without extra machinery.",
+      "source": "Week04.md §5"
+    },
+    {
+      "id": "w04-q010",
+      "week": 4,
+      "topic": "Offline Time-Reversal",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "A graph on $5$ vertices has edges $e_1,\\dots,e_5$. Starting from the full graph $\\{e_1,e_2,e_3,e_4,e_5\\}$ with $1$ component, edges are deleted in order $e_1, e_2, e_3$ where $e_1,e_2$ are bridges and $e_3$ is a redundant (cycle) edge. If you process these deletions in REVERSE (add $e_3$, then $e_2$, then $e_1$), how many of these three additions actually merge two different components? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Reversing turns deletions into additions. Adding $e_3$ (a former cycle edge) reconnects nothing new, so it merges 0 components; adding bridges $e_2$ and $e_1$ each merge two components (1 each). Total merging additions $= 2$.",
+      "source": "Week04.md §5"
+    },
+    {
+      "id": "w04-q011",
+      "week": 4,
+      "topic": "DSU / Kruskal",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "How does Kruskal's minimum-spanning-tree algorithm use DSU?",
+      "options": [
+        "To sort the edges.",
+        "To test, while scanning edges in increasing weight, whether an edge's endpoints are already connected, skipping it to avoid a cycle.",
+        "To compute shortest paths.",
+        "To find the maximum flow."
+      ],
+      "answerIndex": 1,
+      "explanation": "Kruskal sorts edges itself and uses DSU to detect whether adding an edge would create a cycle; if `find(u) != find(v)` it unions them and takes the edge. DSU does not do the sorting.",
+      "source": "Week04.md §6"
+    },
+    {
+      "id": "w04-q012",
+      "week": 4,
+      "topic": "DSU / Path Compression",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "What does path compression do during a `find` operation?",
+      "options": [
+        "Reverses the tree.",
+        "Re-points every node on the path from the queried node up to the root directly at the root, flattening future lookups.",
+        "Splits the set into two.",
+        "Sorts the elements."
+      ],
+      "answerIndex": 1,
+      "explanation": "Path compression makes all nodes along the traversal point directly to the root, so subsequent finds on those nodes are nearly $O(1)$. It does not affect correctness of the tree structure.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q013",
+      "week": 4,
+      "topic": "DSU / Applications",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "For which of the following is DSU a natural fit?",
+      "options": [
+        "Detecting the number of connected components of an undirected graph as edges are added.",
+        "Kruskal's minimum spanning tree.",
+        "Maintaining dynamic connectivity under vertex insertions and deletions.",
+        "Determining whether adding an undirected edge creates a cycle."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "DSU is ideal for incremental-component counting, Kruskal, and cycle detection (A, B, D). Fully dynamic connectivity with deletions (C) needs more (offline reversal, Euler-tour trees, or link-cut trees) since DSU cannot delete.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q014",
+      "week": 4,
+      "topic": "DSU / Union by Size",
+      "type": "NAT",
+      "difficulty": "easy",
+      "prompt": "You have two sets maintained with union-by-size: one of size $2$ and one of size $3$. After you union them once, what is the size of the resulting set? Enter a single integer.",
+      "numericAnswer": 5,
+      "numericTolerance": 0,
+      "explanation": "Union merges the two sets, and sizes add: $2 + 3 = 5$. Union-by-size only decides which root becomes the parent; it does not change the total size.",
+      "source": "Week04.md §2"
+    },
+    {
+      "id": "w04-q015",
+      "week": 4,
+      "topic": "DSU / Complexity",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "If you use ONLY path compression (no union-by-rank or union-by-size), what is the best-known amortized bound per operation?",
+      "options": [
+        "$O(1)$",
+        "$O(\\alpha(n))$",
+        "$O(\\log n)$ amortized (near-linear total), i.e. $O(\\log n)$ amortized per op",
+        "$O(n)$"
+      ],
+      "answerIndex": 2,
+      "explanation": "Path compression alone gives amortized $O(\\log n)$ per operation (total $O((m+n)\\log n)$), which is worse than the $O(\\alpha(n))$ obtained when it is combined with union-by-rank. Union by rank/size is what upgrades the bound to inverse-Ackermann.",
+      "source": "Week04.md §2"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "week": 1,
+  "title": "Simulation, Invariants, Search & Number Theory",
+  "questions": [
+    {
+      "id": "w01-q001",
+      "week": 1,
+      "topic": "Reversort / Simulation",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "In the Reversort algorithm, a step reverses the contiguous subarray from position $i$ to position $j$ (with $i \\le j$). What is the cost (number of elements swapped cost) charged for that single reversal?",
+      "options": ["$i + j$", "$j - i$", "$j - i + 1$", "$i \\times j$"],
+      "answerIndex": 1,
+      "explanation": "Reversing a segment that spans $j-i+1$ elements costs exactly the length minus one, i.e. $j-i$. Equivalently, it is the number of adjacent swaps used to perform the reversal. Options A and D are dimensionally wrong; C is the segment length, not the cost.",
+      "source": "Week01.md §1; Lec02"
+    },
+    {
+      "id": "w01-q002",
+      "week": 1,
+      "topic": "Reversort / Simulation",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Run Reversort on the array $A = [4, 2, 1, 3]$. The algorithm iterates $i = 1$ to $n-1$, finds the minimum element in $A[i..n]$, say at index $j$, reverses $A[i..j]$, and adds cost $j - i + 1$. What is the total cost? Enter a single integer.",
+      "numericAnswer": 6,
+      "numericTolerance": 0,
+      "explanation": "$i=1$: minimum of $[4,2,1,3]$ is $1$ at $j=3$, cost $3-1+1=3$, array becomes $[1,2,4,3]$. $i=2$: minimum of $[2,4,3]$ is $2$ at $j=2$, cost $2-2+1=1$, array unchanged. $i=3$: minimum of $[4,3]$ is $3$ at $j=4$, cost $4-3+1=2$, array becomes $[1,2,3,4]$. Total $= 3+1+2 = 6$.",
+      "source": "Week01.md §1"
+    },
+    {
+      "id": "w01-q003",
+      "week": 1,
+      "topic": "Reversort / Simulation",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Using the same Reversort procedure, what is the total cost for $A = [1, 3, 2]$? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "$i=1$: minimum of $[1,3,2]$ is $1$ at $j=1$, cost $1$; array stays $[1,3,2]$. $i=2$: minimum of $[3,2]$ is $2$ at $j=3$, cost $3-2+1=2$; array becomes $[1,2,3]$. Total $= 1+2 = 3$.",
+      "source": "Week01.md §1"
+    },
+    {
+      "id": "w01-q004",
+      "week": 1,
+      "topic": "Loop Invariants",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "What is the purpose of stating a loop invariant when arguing that an algorithm is correct?",
+      "options": [
+        "It guarantees the algorithm runs in the smallest possible asymptotic time.",
+        "It is a property that holds before and after every iteration, and is used with initialization, maintenance and termination to prove correctness.",
+        "It removes the need to prove that the algorithm terminates.",
+        "It converts an $O(n^2)$ algorithm into an $O(n \\log n)$ algorithm automatically."
+      ],
+      "answerIndex": 1,
+      "explanation": "An invariant is a property true initially (initialization), preserved by each iteration (maintenance), and combined with loop termination to conclude the postcondition. It says nothing about runtime by itself (A, D are false), and termination is still a separate obligation (C is false).",
+      "source": "Week01.md §3"
+    },
+    {
+      "id": "w01-q005",
+      "week": 1,
+      "topic": "Loop Invariants",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "For the Reversort algorithm, which of the following statements are TRUE about the invariant \"after the iteration with index $i$ completes, the subarray $A[1..i]$ is sorted (and moreover contains the $i$ smallest elements in order)\"?",
+      "options": [
+        "It holds before the first iteration (initialization) trivially for the empty prefix $A[1..0]$.",
+        "Each reversal preserves it because the algorithm moves the current minimum into position $i$.",
+        "When the loop ends at $i=n-1$, the entire array is sorted.",
+        "The invariant requires the input array to already be sorted."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "The prefix invariant is established trivially, maintained because placing the minimum of $A[i..n]$ at position $i$ extends the sorted prefix, and at $i=n-1$ the whole array is sorted — which also proves Reversort sorts any input. It does NOT require a sorted input (D is false); Reversort works on arbitrary permutations.",
+      "source": "Week01.md §3"
+    },
+    {
+      "id": "w01-q006",
+      "week": 1,
+      "topic": "Search",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Which precondition must hold before binary search can be applied to an array?",
+      "options": [
+        "The array must contain distinct values only.",
+        "The array must be sorted by the search key.",
+        "The array length must be a power of two.",
+        "All values must be non-negative."
+      ],
+      "answerIndex": 1,
+      "explanation": "Binary search relies on the monotonic ordering of the data to discard half the search space each step. Distinctness, power-of-two length, and non-negativity are not required.",
+      "source": "Week01.md §4"
+    },
+    {
+      "id": "w01-q007",
+      "week": 1,
+      "topic": "Search",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "What is the maximum number of comparisons (evaluations of the midpoint element) binary search performs in the worst case when searching a sorted array of length $1000$? Enter a single integer.",
+      "numericAnswer": 10,
+      "numericTolerance": 0,
+      "explanation": "Worst case is $\\lceil \\log_2 n \\rceil$ for the standard halving; for $n=1000$, $2^9 = 512 < 1000 \\le 1024 = 2^{10}$, so at most 10 probes are needed.",
+      "source": "Week01.md §4"
+    },
+    {
+      "id": "w01-q008",
+      "week": 1,
+      "topic": "Search",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "A sorted array has been rotated at an unknown pivot (e.g. $[4,5,6,7,0,1,2]$). Which statements about searching for a key in it are TRUE?",
+      "options": [
+        "A modified binary search still runs in $O(\\log n)$.",
+        "At each step at least one of the two halves is sorted, and you can decide which half to keep.",
+        "Ordinary binary search as-is always works without modification.",
+        "You can first find the pivot in $O(\\log n)$ and then binary-search the correct segment."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "Rotated-search works in $O(\\log n)$ because one half is always sorted and can gate the decision (A, B). Finding the pivot then searching also works (D). Plain binary search fails because the whole array is not globally sorted (C is false).",
+      "source": "Week01.md §4"
+    },
+    {
+      "id": "w01-q009",
+      "week": 1,
+      "topic": "Number Theory / GCD",
+      "type": "NAT",
+      "difficulty": "easy",
+      "prompt": "Compute $\\gcd(\\gcd(24, 36),\\, 60)$. Enter a single integer.",
+      "numericAnswer": 12,
+      "numericTolerance": 0,
+      "explanation": "$\\gcd(24,36) = 12$ (Euclid: $36 = 1\\cdot24 + 12$, then $24 = 2\\cdot12 + 0$). Then $\\gcd(12,60) = 12$.",
+      "source": "Week01.md §5"
+    },
+    {
+      "id": "w01-q010",
+      "week": 1,
+      "topic": "Number Theory / GCD",
+      "type": "NAT",
+      "difficulty": "easy",
+      "prompt": "Compute $\\operatorname{lcm}(12, 18)$. Enter a single integer.",
+      "numericAnswer": 36,
+      "numericTolerance": 0,
+      "explanation": "Using $\\gcd(12,18)=6$ and $\\operatorname{lcm}(a,b) = ab/\\gcd(a,b)$: $12\\cdot18/6 = 216/6 = 36$.",
+      "source": "Week01.md §5"
+    },
+    {
+      "id": "w01-q011",
+      "week": 1,
+      "topic": "Number Theory / GCD",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "Euclid's algorithm $\\gcd(a,b) = \\gcd(b, a \\bmod b)$ does the largest number of steps (relative to the input size) when the inputs are:",
+      "options": [
+        "Two consecutive powers of two.",
+        "Two consecutive Fibonacci numbers.",
+        "Two consecutive prime numbers.",
+        "Two numbers of the form $(2k, 2k+2)$."
+      ],
+      "answerIndex": 1,
+      "explanation": "Lamé's theorem: the worst case for Euclid's algorithm is consecutive Fibonacci numbers, giving $O(\\log_{\\varphi} n)$ steps. Powers of two terminate very quickly, and large primes terminate in one step.",
+      "source": "Week01.md §5"
+    },
+    {
+      "id": "w01-q012",
+      "week": 1,
+      "topic": "Number Theory",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which of the following identities/facts are TRUE for positive integers $a, b$?",
+      "options": [
+        "$\\gcd(a,b) \\cdot \\operatorname{lcm}(a,b) = a \\cdot b$",
+        "$\\gcd(a,b)$ always divides $a - b$",
+        "If $\\gcd(a,b) = 1$ then $a$ and $b$ are both prime",
+        "$\\gcd(a,b) = \\gcd(a, a+b)$"
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "(A) is the classic gcd–lcm identity. (B) holds because $\\gcd(a,b)$ divides both $a$ and $b$, hence their difference. (D) is the subtraction form of Euclid's algorithm. (C) is false: e.g. $\\gcd(4,9)=1$ but neither is prime.",
+      "source": "Week01.md §5"
+    },
+    {
+      "id": "w01-q013",
+      "week": 1,
+      "topic": "Simulation",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "A simulation processes $Q$ events in order, and for each event scans the current state which has size $S$ (with $S$ up to $10^5$). If the total work is $O(Q \\cdot S)$ with $Q = 10^5$, roughly how many elementary operations are performed?",
+      "options": [
+        "$10^{3}$",
+        "$10^{5}$",
+        "$10^{10}$",
+        "$2^{10}$"
+      ],
+      "answerIndex": 2,
+      "explanation": "$Q \\cdot S = 10^5 \\cdot 10^5 = 10^{10}$ operations, far too slow for a 1-second budget — a signal that the simulation must be optimized (e.g. with prefix sums or efficient data structures).",
+      "source": "Week01.md §1"
+    },
+    {
+      "id": "w01-q014",
+      "week": 1,
+      "topic": "Search",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "You call binary search with the loop `while (lo < hi) { mid = (lo + hi) / 2; if (ok(mid)) hi = mid; else lo = mid + 1; }` on integer $lo$, $hi$. What does this variant find?",
+      "options": [
+        "Any index where `ok` is true, possibly not the smallest.",
+        "The smallest index in $[lo, hi]$ for which `ok` is true, assuming `ok` is monotone (false…false, true…true).",
+        "The largest index for which `ok` is true.",
+        "Nothing; this loop can infinite-loop on every input."
+      ],
+      "answerIndex": 1,
+      "explanation": "This is the standard 'binary search on the answer' template for the first true position under a monotone predicate; it is the basis of lower_bound-style queries and eliminates the classic off-by-one errors.",
+      "source": "Week01.md §4"
+    },
+    {
+      "id": "w01-q015",
+      "week": 1,
+      "topic": "Number Theory / GCD",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "How many iterations of the Euclidean algorithm's loop (each doing one modulo) are needed to compute $\\gcd(89, 55)$ by repeatedly replacing $(a,b)$ with $(b, a \\bmod b)$? Enter a single integer.",
+      "numericAnswer": 9,
+      "numericTolerance": 0,
+      "explanation": "The pairs follow Fibonacci descent: $(89,55)\\to(55,34)\\to(34,21)\\to(21,13)\\to(13,8)\\to(8,5)\\to(5,3)\\to(3,2)\\to(2,1)\\to(1,0)$, which is 9 modulo steps before the remainder hits $0$.",
+      "source": "Week01.md §5"
+    }
+  ]
+}

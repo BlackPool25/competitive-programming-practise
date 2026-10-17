@@ -1,0 +1,236 @@
+{
+  "week": 6,
+  "title": "Shortest Paths: BFS, Dijkstra, Bellman-Ford & Floyd-Warshall",
+  "questions": [
+    {
+      "id": "w06-q001",
+      "week": 6,
+      "topic": "Dijkstra",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Why does Dijkstra's algorithm fail (produce wrong distances) when the graph has a negative-weight edge?",
+      "options": [
+        "Because priority queues cannot hold negative keys.",
+        "Because once a vertex is popped as finalized, Dijkstra assumes no later path can improve its distance; a negative edge can violate this 'greedy finalization' assumption.",
+        "Because it enters an infinite loop on every graph.",
+        "Because negative edges always create negative cycles."
+      ],
+      "answerIndex": 1,
+      "explanation": "Dijkstra's correctness relies on non-negative weights guaranteeing that the popped minimum is final. A negative edge can create a cheaper path discovered later, invalidating already-finalized distances.",
+      "source": "Week06.md §3"
+    },
+    {
+      "id": "w06-q002",
+      "week": 6,
+      "topic": "Dijkstra",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Directed weighted edges: $1\\to2$ (4), $1\\to3$ (1), $3\\to2$ (2), $2\\to4$ (5), $3\\to4$ (8), $4\\to5$ (3). What is the shortest distance from $1$ to $5$? Enter a single integer.",
+      "numericAnswer": 11,
+      "numericTolerance": 0,
+      "explanation": "$d_1=0$, $d_3=1$, $d_2=\\min(4, 1+2)=3$, $d_4=\\min(3+5, 1+8)=8$, $d_5=8+3=11$. So the answer is $11$ along $1\\to3\\to2\\to4\\to5$.",
+      "source": "Week06.md §3"
+    },
+    {
+      "id": "w06-q003",
+      "week": 6,
+      "topic": "Bellman-Ford",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Bellman-Ford relaxes all edges repeatedly. How many full relaxation rounds suffice to compute all shortest paths when there is no negative cycle?",
+      "options": [
+        "1 round",
+        "$\\log n$ rounds",
+        "$V - 1$ rounds",
+        "$E$ rounds"
+      ],
+      "answerIndex": 2,
+      "explanation": "A shortest path is simple (uses at most $V-1$ edges), and each round guarantees at least one more edge of every shortest path is finalized, so $V-1$ rounds suffice. One extra round then detects any negative cycle.",
+      "source": "Week06.md §4"
+    },
+    {
+      "id": "w06-q004",
+      "week": 6,
+      "topic": "Bellman-Ford",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "For a graph with $V = 5$ vertices and no negative cycle, how many relaxation rounds does Bellman-Ford perform to compute all shortest-path distances (i.e. the value of $V-1$)? Enter a single integer.",
+      "numericAnswer": 4,
+      "numericTolerance": 0,
+      "explanation": "$V - 1 = 5 - 1 = 4$ rounds. A fifth (extra) round is used only to detect a negative cycle.",
+      "source": "Week06.md §4"
+    },
+    {
+      "id": "w06-q005",
+      "week": 6,
+      "topic": "0-1 BFS",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about 0-1 BFS are TRUE?",
+      "options": [
+        "It handles graphs whose edge weights are only 0 or 1.",
+        "It uses a deque: a 0-weight edge pushes to the front, a 1-weight edge pushes to the back.",
+        "Its complexity is $O(V + E)$.",
+        "It handles arbitrary non-negative integer weights in linear time."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "0-1 BFS is a linear-time ($O(V+E)$) specialization using a deque for weights in $\\{0,1\\}$. Arbitrary weights (D) are not supported in linear time — that needs Dijkstra.",
+      "source": "Week06.md §2"
+    },
+    {
+      "id": "w06-q006",
+      "week": 6,
+      "topic": "Floyd-Warshall",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "In the Floyd-Warshall dynamic program $d[i][j] = \\min(d[i][j],\\, d[i][k] + d[k][j])$, what does the loop over $k$ represent?",
+      "options": [
+        "The source vertex.",
+        "The destination vertex.",
+        "Allowing intermediate vertices only from the set $\\{1, \\dots, k\\}$ to be used on the path from $i$ to $j$.",
+        "The number of edges in the path."
+      ],
+      "answerIndex": 2,
+      "explanation": "Floyd-Warshall incrementally allows more intermediate vertices; after processing $k$, $d[i][j]$ is the shortest path using only intermediate vertices in $\\{1,\\dots,k\\}$. This is why the $k$-loop must be the OUTERMOST loop.",
+      "source": "Week06.md §5"
+    },
+    {
+      "id": "w06-q007",
+      "week": 6,
+      "topic": "Floyd-Warshall",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Edges: $1{-}2$ (weight 1), $2{-}3$ (weight 1), $1{-}3$ (weight 5). What is the shortest distance from $1$ to $3$? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Direct edge is $5$, but the two-hop path $1\\to2\\to3$ costs $1+1=2$, which is shorter. Hence the answer is $2$.",
+      "source": "Week06.md §5"
+    },
+    {
+      "id": "w06-q008",
+      "week": 6,
+      "topic": "Dijkstra / Complexity",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "What is the time complexity of Dijkstra's algorithm using a binary heap (priority queue) on a graph with $V$ vertices and $E$ edges?",
+      "options": [
+        "$O(V^2)$ always",
+        "$O((V + E) \\log V)$",
+        "$O(VE)$",
+        "$O(E \\log E + V)$"
+      ],
+      "answerIndex": 1,
+      "explanation": "With a binary heap, each vertex is extracted once ($O(V\\log V)$) and each edge may trigger a decrease-key/push ($O(E\\log V)$), giving $O((V+E)\\log V)$. The $O(V^2)$ array version is preferred only for dense graphs.",
+      "source": "Week06.md §3"
+    },
+    {
+      "id": "w06-q009",
+      "week": 6,
+      "topic": "Shortest Paths / Applicability",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which algorithms can correctly handle graphs with negative edge weights (assuming no negative cycle reachable where it matters)?",
+      "options": [
+        "Bellman-Ford",
+        "Floyd-Warshall",
+        "Dijkstra (with a binary heap)",
+        "0-1 BFS"
+      ],
+      "answerIndices": [0, 1],
+      "explanation": "Bellman-Ford and Floyd-Warshall both work with negative edges (and can detect negative cycles). Dijkstra and 0-1 BFS require non-negative (or 0/1) weights, so they are excluded.",
+      "source": "Week06.md §4"
+    },
+    {
+      "id": "w06-q010",
+      "week": 6,
+      "topic": "Shortest Paths",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "A directed graph has $V = 6$ vertices and $E = 10$ edges, and contains no negative cycle. How many full relaxation rounds does Bellman-Ford perform to compute all shortest-path distances? Enter a single integer.",
+      "numericAnswer": 5,
+      "numericTolerance": 0,
+      "explanation": "Bellman-Ford needs exactly $V - 1 = 6 - 1 = 5$ rounds; a 6th round would only be used to test for a negative cycle. The edge count $E$ does not change the number of rounds.",
+      "source": "Week06.md §4"
+    },
+    {
+      "id": "w06-q011",
+      "week": 6,
+      "topic": "Implementation",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "When initializing distances to 'infinity' for Dijkstra/Bellman-Ford, why is adding two infinities (e.g. `INF + INF`) a bug to avoid?",
+      "options": [
+        "Because INF should be zero.",
+        "Because if INF is the maximum representable integer, INF + w overflows to a large negative number, which can wrongly look like a short path.",
+        "Because distances must be floats.",
+        "Because priority queues require finite keys."
+      ],
+      "answerIndex": 1,
+      "explanation": "Using `LLONG_MAX` as INF and adding a weight overflows (signed overflow is UB) producing a negative value that can falsely relax edges. Use a slightly smaller INF (e.g. `LLONG_MAX/2`) or skip relaxation when `d[u] == INF`.",
+      "source": "Week06.md §4"
+    },
+    {
+      "id": "w06-q012",
+      "week": 6,
+      "topic": "Dijkstra / Correctness",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "The key greedy step in Dijkstra is 'extract the unvisited vertex with the smallest tentative distance and finalize it.' Why is this safe when all weights are non-negative?",
+      "options": [
+        "Because the priority queue sorts edges.",
+        "Because any other path to that vertex must pass through an unvisited vertex whose tentative distance is at least as large, and adding non-negative weights can only increase it further.",
+        "Because all vertices have equal degree.",
+        "Because the graph is acyclic."
+      ],
+      "answerIndex": 1,
+      "explanation": "If a strictly shorter path existed, it would leave the finalized set through some frontier vertex already having distance $\\ge$ the popped minimum; adding non-negative weights cannot bring it below. Negative weights break exactly this argument.",
+      "source": "Week06.md §3"
+    },
+    {
+      "id": "w06-q013",
+      "week": 6,
+      "topic": "Shortest Paths / Modelling",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about choosing a shortest-path algorithm are TRUE?",
+      "options": [
+        "Use BFS when all edges have equal weight.",
+        "Use 0-1 BFS when all weights are 0 or 1.",
+        "Use Floyd-Warshall when you need all-pairs distances and $V$ is modest (say $\\le 400$).",
+        "Use Bellman-Ford when you need the fastest solution on large non-negative-weighted graphs."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "BFS, 0-1 BFS, and Floyd-Warshall choices are correct. For large non-negative graphs, Dijkstra is faster than Bellman-Ford, so D is false.",
+      "source": "Week06.md §6"
+    },
+    {
+      "id": "w06-q014",
+      "week": 6,
+      "topic": "Floyd-Warshall / Complexity",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "What is the time complexity of Floyd-Warshall on a graph with $V$ vertices?",
+      "options": ["$O(V^2)$", "$O(V^3)$", "$O(V E)$", "$O(E \\log V)$"],
+      "answerIndex": 1,
+      "explanation": "Three nested loops over vertices give $O(V^3)$. It is attractive for dense graphs and for all-pairs queries when $V$ is small.",
+      "source": "Week06.md §5"
+    },
+    {
+      "id": "w06-q015",
+      "week": 6,
+      "topic": "Negative Cycles",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "Detecting a negative cycle reachable from the source with Bellman-Ford is done by:",
+      "options": [
+        "Running only one relaxation round.",
+        "Running $V-1$ rounds and then checking a $V$-th round: if any edge can still be relaxed, a negative cycle is reachable.",
+        "Sorting the edges.",
+        "Running Dijkstra first."
+      ],
+      "answerIndex": 1,
+      "explanation": "After $V-1$ rounds all shortest paths are finalized if no negative cycle exists. If a $V$-th round still relaxes an edge, distances are unbounded below — a reachable negative cycle exists.",
+      "source": "Week06.md §4"
+    }
+  ]
+}

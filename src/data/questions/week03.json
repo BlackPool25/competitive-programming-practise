@@ -1,0 +1,231 @@
+{
+  "week": 3,
+  "title": "Greedy Strategies, Exchange Arguments & Stable Matchings",
+  "questions": [
+    {
+      "id": "w03-q001",
+      "week": 3,
+      "topic": "Exchange Argument",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "What is the role of an **exchange argument** in proving a greedy algorithm correct?",
+      "options": [
+        "It shows the greedy choice is the unique possible choice.",
+        "It shows any optimal solution can be transformed into one that includes the greedy choice without becoming worse, so it is safe to commit to the greedy choice.",
+        "It measures the running time of the greedy loop.",
+        "It proves the problem has no solution."
+      ],
+      "answerIndex": 1,
+      "explanation": "An exchange argument takes an optimal solution differing from the greedy one and swaps in the greedy choice, proving the result is still optimal. This justifies local commitment without needing to know the global optimum in advance.",
+      "source": "Week03.md §2"
+    },
+    {
+      "id": "w03-q002",
+      "week": 3,
+      "topic": "Interval Scheduling",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "For the classic interval-scheduling problem (select the maximum number of non-overlapping intervals), which greedy rule is optimal?",
+      "options": [
+        "Pick the interval with the earliest start time.",
+        "Pick the interval with the shortest length.",
+        "Pick the interval with the earliest finish time, then recurse on intervals starting after it.",
+        "Pick the interval overlapping the fewest others."
+      ],
+      "answerIndex": 2,
+      "explanation": "Choosing the earliest finishing interval is optimal because it wastes the least of the timeline; an exchange argument replaces any optimal solution's first interval with the earliest-finishing one. Earliest-start and shortest-length are classic counterexamples.",
+      "source": "Week03.md §3"
+    },
+    {
+      "id": "w03-q003",
+      "week": 3,
+      "topic": "Interval Scheduling",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Given intervals $(1,3), (2,4), (3,5), (4,6)$ where intervals may share endpoints (so $(1,3)$ and $(3,5)$ are compatible), what is the maximum number of pairwise non-overlapping intervals? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Earliest-finish greedy picks $(1,3)$ then $(3,5)$; that is 2. Any 3 intervals would have to fit inside span $[1,6]$ with four alternating starts, which forces an overlap, so 2 is optimal.",
+      "source": "Week03.md §3"
+    },
+    {
+      "id": "w03-q004",
+      "week": 3,
+      "topic": "Greedy / Correctness",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which of the following are standard techniques to justify a greedy algorithm?",
+      "options": [
+        "The exchange argument.",
+        "The greedy-stays-ahead (induction) argument.",
+        "Proving the structure is a matroid, so the greedy algorithm yields a maximum-weight independent set.",
+        "Showing the greedy choice happens to maximize the number of options at that step only."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Exchange arguments, greedy-stays-ahead induction, and the matroid characterization are the rigorous tools. Merely maximizing local options is not a proof and often fails (D).",
+      "source": "Week03.md §2"
+    },
+    {
+      "id": "w03-q005",
+      "week": 3,
+      "topic": "Greedy / Limits",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "The greedy 'take the largest coin that fits' strategy fails to give the minimum number of coins for which of the following coin systems with target $6$?",
+      "options": [
+        "Coins $\\{1, 5\\}$",
+        "Coins $\\{1, 3, 4\\}$",
+        "Coins $\\{1, 2, 5\\}$",
+        "Coins $\\{1, 6\\}$"
+      ],
+      "answerIndex": 1,
+      "explanation": "With $\\{1,3,4\\}$ greedy uses $4+1+1=3$ coins, but $3+3=2$ coins is optimal, so greedy fails. Standard coin systems like $\\{1,5\\}$, $\\{1,2,5\\}$, $\\{1,6\\}$ happen to be greedy-friendly for this target.",
+      "source": "Week03.md §4"
+    },
+    {
+      "id": "w03-q006",
+      "week": 3,
+      "topic": "Greedy / Limits",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Using coins $\\{1, 3, 4\\}$ and greedy 'largest coin that fits', how many coins does greedy use to make $6$, and what is the true minimum? Enter the TRUE MINIMUM number of coins as a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Greedy: $4+1+1 = 3$ coins. Optimal: $3+3 = 2$ coins. The true minimum is $2$.",
+      "source": "Week03.md §4"
+    },
+    {
+      "id": "w03-q007",
+      "week": 3,
+      "topic": "Stable Matching",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "In the stable-matching (stable marriage) problem, a matching is **stable** if:",
+      "options": [
+        "Every participant gets their top choice.",
+        "There is no blocking pair: no two participants who are not matched to each other but both prefer each other over their current partners.",
+        "The total number of matched pairs is maximized.",
+        "All proposers are matched to receivers they ranked first."
+      ],
+      "answerIndex": 1,
+      "explanation": "Stability is exactly the absence of a blocking pair. It does not require top choices or a particular matching size (with equal numbers everyone is matched anyway).",
+      "source": "Week03.md §6"
+    },
+    {
+      "id": "w03-q008",
+      "week": 3,
+      "topic": "Stable Matching / Gale-Shapley",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about the Gale–Shapley algorithm (proposers propose) are TRUE?",
+      "options": [
+        "It always terminates with a stable matching given strict preference lists.",
+        "The matching it produces is proposer-optimal: every proposer gets the best partner they could have in any stable matching.",
+        "It produces a receiver-optimal matching.",
+        "The running time is $O(n^2)$ for $n$ proposers and $n$ receivers."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "Gale–Shapley terminates in $O(n^2)$ and yields a stable matching that is simultaneously best for all proposers (proposer-optimal). Because a proposer-optimal matching cannot also be receiver-optimal (unless the stable matching is unique), C is false.",
+      "source": "Week03.md §6"
+    },
+    {
+      "id": "w03-q009",
+      "week": 3,
+      "topic": "Stable Matching / Gale-Shapley",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "In Gale–Shapley with $n$ proposers and $n$ receivers, what is the tight upper bound on the total number of proposals made before termination? Enter a single integer for $n = 5$.",
+      "numericAnswer": 25,
+      "numericTolerance": 0,
+      "explanation": "Each proposer proposes to each receiver at most once (never proposing to someone who already rejected them), so the total is at most $n \\cdot n = 5 \\cdot 5 = 25$.",
+      "source": "Week03.md §6"
+    },
+    {
+      "id": "w03-q010",
+      "week": 3,
+      "topic": "Stable Matching / Gale-Shapley",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "Proposers $A, B$ and receivers $X, Y$. Proposer lists: $A: X > Y$, $B: X > Y$. Receiver lists: $X: A > B$, $Y: A > B$. Run Gale–Shapley (proposers propose). How many proposals are made in total before the algorithm terminates? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "$A$ proposes to $X$ (accepted tentatively). $B$ proposes to $X$; $X$ prefers $A$, so $B$ is rejected. $B$ then proposes to $Y$ (accepted). Total proposals $= 1 + 2 = 3$. Final matching $A-X$, $B-Y$, which is stable.",
+      "source": "Week03.md §6"
+    },
+    {
+      "id": "w03-q011",
+      "week": 3,
+      "topic": "Scheduling",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "For minimizing the maximum lateness when scheduling jobs with deadlines on a single machine, which greedy ordering is optimal?",
+      "options": [
+        "Increasing processing time.",
+        "Earliest deadline first (ordered by deadline).",
+        "Decreasing processing time.",
+        "Random order."
+      ],
+      "answerIndex": 1,
+      "explanation": "Scheduling by earliest deadline (the 'exchange argument' shows swapping any inversion of deadlines never increases maximum lateness) minimizes the maximum lateness. Processing-time orders do not guarantee it.",
+      "source": "Week03.md §5"
+    },
+    {
+      "id": "w03-q012",
+      "week": 3,
+      "topic": "Greedy / Weighted Variant",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "Contrast plain interval scheduling with **weighted** interval scheduling (each interval has a value, maximize total value). Which statements are TRUE?",
+      "options": [
+        "Plain interval scheduling is solved optimally by an earliest-finish greedy in $O(n \\log n)$.",
+        "Weighted interval scheduling is solved optimally by the same earliest-finish greedy.",
+        "Weighted interval scheduling needs dynamic programming (sort by finish time and use binary search for the last compatible interval).",
+        "A single very heavy interval may be chosen over several light ones in the weighted problem."
+      ],
+      "answerIndices": [0, 2, 3],
+      "explanation": "Earliest-finish greedy is optimal only for the unweighted (count) objective. Once intervals carry weights, choice B is false and you need DP: $dp[i] = \\max(dp[i-1],\\, w_i + dp[p(i)])$, where $p(i)$ is the last interval compatible with $i$.",
+      "source": "Week03.md §5"
+    },
+    {
+      "id": "w03-q013",
+      "week": 3,
+      "topic": "Greedy / Matroids",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "Which structure guarantees that sorting elements by weight and greedily adding an element whenever the set stays independent yields a maximum-weight independent set?",
+      "options": ["A tree", "A matroid", "A bipartite graph", "A priority queue"],
+      "answerIndex": 1,
+      "explanation": "Matroids (with the exchange property and hereditary independence) are exactly the structures on which the greedy algorithm is optimal for maximum-weight independent sets. This captures minimum spanning trees, among others.",
+      "source": "Week03.md §2"
+    },
+    {
+      "id": "w03-q014",
+      "week": 3,
+      "topic": "Interval Scheduling",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "What is the maximum number of non-overlapping intervals you can select from $\\{(0,1), (0,2), (1,2), (2,3), (2,4), (3,4)\\}$ if intervals sharing an endpoint are compatible? Enter a single integer.",
+      "numericAnswer": 4,
+      "numericTolerance": 0,
+      "explanation": "Earliest-finish greedy: $(0,1)$, then $(1,2)$, then $(2,3)$, then $(3,4)$ — four intervals, all endpoint-compatible. No fifth fits in $[0,4]$ with unit progress, so 4 is optimal.",
+      "source": "Week03.md §3"
+    },
+    {
+      "id": "w03-q015",
+      "week": 3,
+      "topic": "Greedy / Correctness",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "The 'greedy stays ahead' proof technique works by:",
+      "options": [
+        "Showing greedy's solution differs from optimal at every step.",
+        "Showing, by induction on the number of steps, that greedy's solution is at least as good as any optimal solution's corresponding prefix.",
+        "Randomly perturbing the input.",
+        "Using a hash table."
+      ],
+      "answerIndex": 1,
+      "explanation": "In 'greedy stays ahead', one proves inductively that after each step greedy's partial solution is at least as good as the optimal solution's prefix, which by the end implies greedy is optimal.",
+      "source": "Week03.md §2"
+    }
+  ]
+}

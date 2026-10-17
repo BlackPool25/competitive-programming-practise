@@ -1,0 +1,236 @@
+{
+  "week": 8,
+  "title": "Network Flow Foundations, Residual Graphs & Reductions",
+  "questions": [
+    {
+      "id": "w08-q001",
+      "week": 8,
+      "topic": "Flow / Conservation",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Which condition defines a valid $s$-$t$ flow in a network?",
+      "options": [
+        "Capacity: $0 \\le f(e) \\le c(e)$ for every edge, plus flow conservation at every vertex except $s$ and $t$.",
+        "Every edge must be saturated.",
+        "Flow must be integral.",
+        "At each vertex, the total flow in must equal zero."
+      ],
+      "answerIndex": 0,
+      "explanation": "A flow respects edge capacities and conserves flow at internal vertices (inflow = outflow). Edges need not be saturated, and integrality is a consequence (integrality theorem), not a definition.",
+      "source": "Week08.md §2"
+    },
+    {
+      "id": "w08-q002",
+      "week": 8,
+      "topic": "Max-Flow",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Network: $s\\to a$ (3), $s\\to b$ (2), $a\\to t$ (2), $b\\to t$ (2), $a\\to b$ (1). What is the maximum flow value from $s$ to $t$? Enter a single integer.",
+      "numericAnswer": 4,
+      "numericTolerance": 0,
+      "explanation": "The cut $\\{s,a,b\\}$ vs $\\{t\\}$ has capacity $c(a,t)+c(b,t)=2+2=4$, so max flow $\\le 4$. It is achievable: send $s\\to a\\to t$ 2 units and $s\\to b\\to t$ 2 units. Hence max flow $= 4$.",
+      "source": "Week08.md §2"
+    },
+    {
+      "id": "w08-q003",
+      "week": 8,
+      "topic": "Residual Graph",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "Why must the residual graph contain a **reverse edge** for each original edge?",
+      "options": [
+        "To double the network size for no reason.",
+        "To allow the algorithm to cancel flow along an edge: pushing flow on the reverse residual edge reduces the flow on the original edge.",
+        "Because capacities can be negative.",
+        "To store the original capacity."
+      ],
+      "answerIndex": 1,
+      "explanation": "Reverse edges with residual capacity equal to the current flow let augmenting paths re-route earlier (possibly suboptimal) flow, enabling the algorithm to recover from bad choices and reach the true maximum.",
+      "source": "Week08.md §3"
+    },
+    {
+      "id": "w08-q004",
+      "week": 8,
+      "topic": "Bipartite Matching",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Left side $\\{1,2,3\\}$, right side $\\{a,b,c\\}$, edges $1{-}a, 1{-}b, 2{-}a, 3{-}b, 3{-}c$. What is the size of a maximum bipartite matching? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "A perfect matching exists: $1{-}b$, $2{-}a$, $3{-}c$, matching all three left vertices. So the maximum matching size is $3$.",
+      "source": "Week08.md §5"
+    },
+    {
+      "id": "w08-q005",
+      "week": 8,
+      "topic": "Integrality",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about network flow are TRUE?",
+      "options": [
+        "If all capacities are integers, there is a maximum flow in which every edge carries an integer amount (integrality theorem).",
+        "The value of a maximum flow equals the capacity of a minimum cut (Max-Flow Min-Cut theorem).",
+        "Ford-Fulkerson with arbitrary augmenting paths may fail to terminate if capacities are irrational.",
+        "Every maximum flow saturates every edge of the network."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Integrality, Max-Flow Min-Cut, and the non-termination issue with irrational capacities on bad augmenting-path choices are all true. Not every edge is saturated in a max flow (D false) — only the forward edges of a specific min cut need be saturated.",
+      "source": "Week08.md §4"
+    },
+    {
+      "id": "w08-q006",
+      "week": 8,
+      "topic": "Edmonds-Karp",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "Edmonds-Karp improves Ford-Fulkerson by choosing the augmenting path via BFS. Its time complexity is:",
+      "options": ["$O(E)$", "$O(VE)$", "$O(VE^2)$", "$O(V^3 E)$"],
+      "answerIndex": 2,
+      "explanation": "Edmonds-Karp (BFS augmenting paths) runs in $O(VE^2)$: each augmenting path raises the shortest-path length monotonically, bounding the number of augmentations by $O(VE)$, each costing $O(E)$.",
+      "source": "Week08.md §4"
+    },
+    {
+      "id": "w08-q007",
+      "week": 8,
+      "topic": "Max-Flow Min-Cut",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "In the network $s\\to a$(3), $s\\to b$(2), $a\\to t$(2), $b\\to t$(2), $a\\to b$(1), what is the capacity of a minimum $s$-$t$ cut? Enter a single integer.",
+      "numericAnswer": 4,
+      "numericTolerance": 0,
+      "explanation": "By Max-Flow Min-Cut, min cut capacity equals max flow. From the previous computation max flow is $4$; the cut $\\{s,a,b\\}$ / $\\{t\\}$ has capacity $2+2=4$. So the minimum cut capacity is $4$.",
+      "source": "Week08.md §4"
+    },
+    {
+      "id": "w08-q008",
+      "week": 8,
+      "topic": "Residual / Augmenting",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "When no augmenting path exists from $s$ to $t$ in the residual graph, what can be concluded?",
+      "options": [
+        "The algorithm must restart with a different source.",
+        "The current flow is maximum.",
+        "The network has a negative cycle.",
+        "Capacities must be fractional."
+      ],
+      "answerIndex": 1,
+      "explanation": "If no $s$-$t$ augmenting path remains, the set of vertices reachable from $s$ in the residual graph defines a cut whose capacity equals the current flow, proving optimality by Max-Flow Min-Cut.",
+      "source": "Week08.md §3"
+    },
+    {
+      "id": "w08-q009",
+      "week": 8,
+      "topic": "Reductions",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "Which problems can be modelled as and solved by maximum flow?",
+      "options": [
+        "Maximum bipartite matching.",
+        "Maximum number of edge-disjoint $s$-$t$ paths.",
+        "Finding a maximum clique in an arbitrary graph.",
+        "Bipartite minimum vertex cover (via König's theorem)."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "Bipartite matching, edge-disjoint paths, and (via König) bipartite min vertex cover are all flow-modellable. Maximum clique in a general graph is NP-hard (D false) and not solved by flow.",
+      "source": "Week08.md §5"
+    },
+    {
+      "id": "w08-q010",
+      "week": 8,
+      "topic": "Edge-Disjoint Paths",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "In the undirected graph with edges $s{-}a, s{-}b, a{-}t, b{-}t, a{-}b$ (all capacity 1), what is the maximum number of edge-disjoint $s$-$t$ paths? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "The two obvious paths $s{-}a{-}t$ and $s{-}b{-}t$ are edge-disjoint (giving 2). Any third path would need to reuse an edge, so 2 is the maximum — equal to the max-flow value with unit capacities.",
+      "source": "Week08.md §5"
+    },
+    {
+      "id": "w08-q011",
+      "week": 8,
+      "topic": "Flow / Definitions",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "What is the difference between the capacity $c(e)$ of an edge and its flow $f(e)$?",
+      "options": [
+        "They are always equal.",
+        "Capacity is the fixed upper bound; flow is the current amount pushed, satisfying $0 \\le f(e) \\le c(e)$.",
+        "Flow is the fixed upper bound and capacity varies.",
+        "Both are outputs of the algorithm."
+      ],
+      "answerIndex": 1,
+      "explanation": "Capacity is part of the input (an upper bound), while flow is what the algorithm assigns, constrained by the capacity and by flow conservation. Only the flow is computed.",
+      "source": "Week08.md §2"
+    },
+    {
+      "id": "w08-q012",
+      "week": 8,
+      "topic": "Flow / Properties",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about max flow are TRUE?",
+      "options": [
+        "The total outflow from $s$ equals the total inflow into $t$ (the flow value).",
+        "At every internal vertex, total inflow equals total outflow.",
+        "The max flow value is at most the capacity of any $s$-$t$ cut.",
+        "Flow can exceed the capacity of an edge as long as conservation holds."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Conservation (A, B) and the weak-duality fact that every flow is bounded by every cut (C) are true. Exceeding an edge's capacity (D) is a violation — capacities are hard constraints.",
+      "source": "Week08.md §2"
+    },
+    {
+      "id": "w08-q013",
+      "week": 8,
+      "topic": "Vertex Capacities",
+      "type": "MCQ",
+      "difficulty": "hard",
+      "prompt": "How do you model a capacity limit on a **vertex** (not an edge) in a flow network?",
+      "options": [
+        "You cannot; flow networks only have edge capacities.",
+        "Split the vertex $v$ into $v_{in}$ and $v_{out}$ with an edge $v_{in}\\to v_{out}$ carrying the vertex capacity, routing all in-edges to $v_{in}$ and out-edges from $v_{out}$.",
+        "Set all edge capacities equal.",
+        "Add a self-loop."
+      ],
+      "answerIndex": 1,
+      "explanation": "The standard node-splitting trick: replace $v$ by $v_{in}, v_{out}$ joined by an edge of the desired vertex capacity. This reduces vertex-disjoint path / node-capacitated problems to ordinary flow.",
+      "source": "Week08.md §5"
+    },
+    {
+      "id": "w08-q014",
+      "week": 8,
+      "topic": "Ford-Fulkerson",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "For integer capacities bounded by $C$, how many augmenting paths can Ford-Fulkerson take in the worst case if each path can push only 1 unit?",
+      "options": [
+        "At most $\\log C$",
+        "At most $C \\cdot E$",
+        "Exactly $V$",
+        "Exactly 1"
+      ],
+      "answerIndex": 1,
+      "explanation": "With integral capacities, each augmentation pushes at least 1 unit and the flow value is at most $C\\cdot E$ (or use the min-cut bound), so the number of augmentations is bounded by the flow value — this is why choosing paths badly can be slow and why Edmonds-Karp (BFS) is preferred.",
+      "source": "Week08.md §4"
+    },
+    {
+      "id": "w08-q015",
+      "week": 8,
+      "topic": "Modelling / Traps",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "When reducing a problem to max flow, which modelling choices are correct?",
+      "options": [
+        "For bipartite matching, add a super-source to the left side (capacity 1 each) and a super-sink from the right side (capacity 1 each), with left-to-right edges of capacity 1.",
+        "For edge-disjoint paths, set every edge capacity to 1 and take the max flow.",
+        "For vertex-disjoint paths, split each vertex and set the split edge to capacity 1.",
+        "For maximum clique, connect a source to every vertex."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Bipartite-matching, edge-disjoint, and vertex-disjoint constructions are all standard correct reductions (A, B, C). Maximum clique is NP-hard and has no flow reduction (D false).",
+      "source": "Week08.md §5"
+    }
+  ]
+}

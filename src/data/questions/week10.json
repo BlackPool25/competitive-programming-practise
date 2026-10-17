@@ -1,0 +1,226 @@
+{
+  "week": 10,
+  "title": "Dynamic Programming Foundations, Memoization & Classic DP",
+  "questions": [
+    {
+      "id": "w10-q001",
+      "week": 10,
+      "topic": "DP / Principles",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Which two properties must a problem have for dynamic programming to apply?",
+      "options": [
+        "Optimal substructure and overlapping subproblems.",
+        "Greedy choice property and monotonicity.",
+        "Linearity and symmetry.",
+        "Determinism and reversibility."
+      ],
+      "answerIndex": 0,
+      "explanation": "DP needs optimal substructure (an optimal solution is built from optimal solutions to subproblems) and overlapping subproblems (the same subproblem recurs, so caching helps). The greedy-choice property (B) is what distinguishes greedy algorithms.",
+      "source": "Week10.md §1"
+    },
+    {
+      "id": "w10-q002",
+      "week": 10,
+      "topic": "DP / Fibonacci",
+      "type": "NAT",
+      "difficulty": "easy",
+      "prompt": "Using the standard recurrence $F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2)$, what is $F(10)$ computed by DP? Enter a single integer.",
+      "numericAnswer": 55,
+      "numericTolerance": 0,
+      "explanation": "The sequence is $0,1,1,2,3,5,8,13,21,34,55$, so $F(10)=55$. DP computes it in $O(n)$ by filling a table bottom-up, avoiding the exponential recursion tree.",
+      "source": "Week10.md §2"
+    },
+    {
+      "id": "w10-q003",
+      "week": 10,
+      "topic": "Memoization vs Tabulation",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "What is the difference between memoization and tabulation?",
+      "options": [
+        "Memoization is bottom-up; tabulation is top-down.",
+        "Memoization is top-down recursion with a cache; tabulation is bottom-up iteration over a table.",
+        "They always give different answers.",
+        "Tabulation cannot use arrays."
+      ],
+      "answerIndex": 1,
+      "explanation": "Memoization caches results on demand during recursion (top-down); tabulation fills the table iteratively in dependency order (bottom-up). Both yield the same values, just different control flow.",
+      "source": "Week10.md §2"
+    },
+    {
+      "id": "w10-q004",
+      "week": 10,
+      "topic": "DP / LIS",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "For the sequence $3, 10, 2, 1, 20$, what is the length of the longest increasing subsequence? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "A longest increasing subsequence is $3, 10, 20$ (length 3). DP state $L[i]$ = length of the LIS ending at index $i$ gives the maximum of the table as 3.",
+      "source": "Week10.md §4"
+    },
+    {
+      "id": "w10-q005",
+      "week": 10,
+      "topic": "DP / Knapsack",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "0/1 knapsack with capacity $W = 7$, item weights $[1,3,4,5]$ and values $[1,4,5,7]$. What is the maximum total value? Enter a single integer.",
+      "numericAnswer": 9,
+      "numericTolerance": 0,
+      "explanation": "Taking the weight-$3$ item (value $4$) and the weight-$4$ item (value $5$) uses exactly capacity $7$ and yields $9$, the optimum. (Weight $1+5=6$ gives $8$; weight $1+3+4$ exceeds capacity.)",
+      "source": "Week10.md §3"
+    },
+    {
+      "id": "w10-q006",
+      "week": 10,
+      "topic": "DP / Properties",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about dynamic programming are TRUE?",
+      "options": [
+        "Memoization can reduce exponential recursion to polynomial time when subproblems overlap.",
+        "The number of distinct subproblems determines the state space size.",
+        "DP always requires exponential space.",
+        "Greedy algorithms are a special case of DP that make an irrevocable local choice at each step."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "Caching overlapping subproblems gives the speedup (A), and the distinct-subproblem count bounds the state space (B). Greedy is characterized by irrevocable local choices (D). DP does NOT require exponential space (C false) — it usually uses polynomial space.",
+      "source": "Week10.md §1"
+    },
+    {
+      "id": "w10-q007",
+      "week": 10,
+      "topic": "DP vs Greedy",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "When should you prefer DP over a greedy approach?",
+      "options": [
+        "When the problem has no optimal substructure.",
+        "When a locally optimal greedy choice cannot be proven safe and choices interact, so you must consider multiple subproblem outcomes.",
+        "When the input is small enough to brute-force.",
+        "DP is always better than greedy."
+      ],
+      "answerIndex": 1,
+      "explanation": "DP is the tool when greedy choices are not provably safe and earlier decisions affect later options (e.g. 0/1 knapsack). If a greedy-choice property can be proven, greedy is usually simpler and faster.",
+      "source": "Week10.md §1"
+    },
+    {
+      "id": "w10-q008",
+      "week": 10,
+      "topic": "DP / Grid Paths",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "In a $3 \\times 3$ grid of cells, how many paths go from the top-left cell to the bottom-right cell moving only right or down? Enter a single integer.",
+      "numericAnswer": 6,
+      "numericTolerance": 0,
+      "explanation": "You must make $2$ right moves and $2$ down moves in some order: $\\binom{4}{2} = 6$. The DP state $dp[i][j] = dp[i-1][j] + dp[i][j-1]$ computes the same count.",
+      "source": "Week10.md §5"
+    },
+    {
+      "id": "w10-q009",
+      "week": 10,
+      "topic": "DP / State Design",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "In 0/1 knapsack, why is the table usually indexed by (item index, remaining capacity)?",
+      "options": [
+        "Because capacities must be sorted.",
+        "Because the optimal value depends only on which items remain to be considered and the capacity still available — that pair is a sufficient state.",
+        "Because items must be processed in increasing weight order.",
+        "Randomly."
+      ],
+      "answerIndex": 1,
+      "explanation": "The state $(i, w)$ captures everything needed to decide the future: the first $i$ items are decided and $w$ capacity remains. Ordering items is irrelevant (unlike greedy), so any order works.",
+      "source": "Week10.md §3"
+    },
+    {
+      "id": "w10-q010",
+      "week": 10,
+      "topic": "DP / Applications",
+      "type": "MSQ",
+      "difficulty": "easy",
+      "prompt": "Which of these are classic dynamic programming problems?",
+      "options": [
+        "Longest common subsequence",
+        "Edit distance",
+        "Coin change (minimum coins)",
+        "Finding the maximum of an array in one pass"
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "LCS, edit distance, and coin change all have overlapping subproblems and optimal substructure (A, B, C). Taking the maximum of an array is a single linear scan with no subproblem overlap (D false).",
+      "source": "Week10.md §4"
+    },
+    {
+      "id": "w10-q011",
+      "week": 10,
+      "topic": "DP / Edit Distance",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "What is the Levenshtein edit distance between \"kitten\" and \"sitting\"? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "kitten → sitten (substitute k→s), sitten → sittin (substitute e→i), sittin → sitting (insert g). Three operations, and no shorter sequence exists, so the distance is $3$.",
+      "source": "Week10.md §5"
+    },
+    {
+      "id": "w10-q012",
+      "week": 10,
+      "topic": "DP / Complexity",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "If a DP has $S$ distinct states and each state does $T$ units of work, its time complexity is:",
+      "options": ["$O(S)$", "$O(T)$", "$O(S \\cdot T)$", "$O(S + T)$"],
+      "answerIndex": 2,
+      "explanation": "The total work is (number of states) × (work per state) = $O(S\\cdot T)$. With memoization the same bound holds because each state is computed once.",
+      "source": "Week10.md §1"
+    },
+    {
+      "id": "w10-q013",
+      "week": 10,
+      "topic": "DP / Coin Change",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "With coin denominations $\\{1, 3, 4\\}$ and unlimited supply, what is the minimum number of coins to make amount $6$? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Two coins suffice: $3 + 3 = 6$. (The greedy choice of picking 4 first would force $4+1+1 = 3$ coins, showing why DP is needed here.) So the minimum is $2$.",
+      "source": "Week10.md §3"
+    },
+    {
+      "id": "w10-q014",
+      "week": 10,
+      "topic": "DP / Pitfalls",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "Which are common pitfalls when designing a DP?",
+      "options": [
+        "Defining a state that omits information needed to make future decisions, causing incorrect reuse.",
+        "Forgetting to initialize base cases correctly.",
+        "Confusing 0/1 (each item once) with unbounded (item reusable) knapsack iteration order.",
+        "Using too few states — adding dimensions always slows the algorithm with no benefit."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Incomplete states, wrong base cases, and 0/1-vs-unbounded loop order are the classic DP bugs (A, B, C). Additional dimensions often FIX correctness — the art is the minimal sufficient state, so D's blanket claim that states never help is false.",
+      "source": "Week10.md §3"
+    },
+    {
+      "id": "w10-q015",
+      "week": 10,
+      "topic": "DP / vs Recursion",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "Why can naive recursion for Fibonacci be exponentially slow while DP is linear?",
+      "options": [
+        "Recursion cannot compute Fibonacci.",
+        "Naive recursion recomputes the same subproblems many times, whereas DP computes each distinct subproblem once and reuses the result.",
+        "DP uses floating point.",
+        "Recursion uses too much memory for integers."
+      ],
+      "answerIndex": 1,
+      "explanation": "The naive recursion tree has exponentially many nodes because $F(k)$ is recomputed for every path. Memoization/tabulation stores each of the $O(n)$ distinct values once, reducing the time to $O(n)$.",
+      "source": "Week10.md §2"
+    }
+  ]
+}

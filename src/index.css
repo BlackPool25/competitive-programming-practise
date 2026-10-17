@@ -1,0 +1,136 @@
+:root {
+  --bg: #0f1117;
+  --panel: #171a23;
+  --panel-2: #1e222d;
+  --border: #2b3040;
+  --text: #d7dbe6;
+  --muted: #8b93a7;
+  --text-h: #f4f6fb;
+  --accent: #6ea8fe;
+  --accent-2: #7c5cff;
+  --ok: #35c48a;
+  --bad: #f2555a;
+  --warn: #f0b429;
+  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+
+  color-scheme: dark;
+  font: 17px/1.5 var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px 64px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-h);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.05s;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button.primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  border: none;
+  color: #fff;
+  font-weight: 600;
+}
+
+button.primary.alt {
+  background: linear-gradient(180deg, #2b3149, #232840);
+  border: 1px solid var(--border);
+}
+
+button.danger-btn {
+  background: var(--bad);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+}
+
+button.ghost {
+  background: transparent;
+}
+
+button.big {
+  font-size: 17px;
+  padding: 14px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+button.big small {
+  font-weight: 400;
+  opacity: 0.75;
+  font-size: 13px;
+}
+
+input[type="number"],
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+input[type="number"] {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text-h);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  width: 160px;
+}
+
+code {
+  font-family: var(--mono);
+  background: var(--panel-2);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.92em;
+}

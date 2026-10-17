@@ -1,0 +1,236 @@
+{
+  "week": 5,
+  "title": "Graph Traversals, Bipartite Graphs & BFS Level Invariants",
+  "questions": [
+    {
+      "id": "w05-q001",
+      "week": 5,
+      "topic": "BFS / Shortest Paths",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "In an unweighted, undirected graph, what does BFS compute from a source $s$?",
+      "options": [
+        "The shortest-path (minimum edge-count) distance from $s$ to every reachable vertex.",
+        "The longest simple path from $s$.",
+        "A minimum spanning tree.",
+        "Only whether the graph is connected."
+      ],
+      "answerIndex": 0,
+      "explanation": "BFS explores vertices in non-decreasing edge distance, so the first time a vertex is discovered is at its minimum edge-count distance. (Dijkstra handles weighted graphs; longest simple path is NP-hard.)",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q002",
+      "week": 5,
+      "topic": "BFS / Distances",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "An undirected graph has edges $1{-}2, 1{-}3, 2{-}4, 3{-}5, 4{-}6, 5{-}6$. What is the BFS distance (minimum number of edges) from vertex $1$ to vertex $6$? Enter a single integer.",
+      "numericAnswer": 3,
+      "numericTolerance": 0,
+      "explanation": "Layers from $1$: level 0 $\\{1\\}$, level 1 $\\{2,3\\}$, level 2 $\\{4,5\\}$, level 3 $\\{6\\}$. So $d(1,6)=3$ (e.g. path $1\\to2\\to4\\to6$).",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q003",
+      "week": 5,
+      "topic": "Bipartite Graphs",
+      "type": "MCQ",
+      "difficulty": "easy",
+      "prompt": "A graph is bipartite if and only if:",
+      "options": [
+        "It has no cycles.",
+        "It has no odd-length cycle.",
+        "Every vertex has even degree.",
+        "It is connected."
+      ],
+      "answerIndex": 1,
+      "explanation": "The classic characterization: a graph is bipartite (2-colourable) iff it contains no odd cycle. A tree is bipartite; even cycles and disconnected graphs can still be bipartite.",
+      "source": "Week05.md §3"
+    },
+    {
+      "id": "w05-q004",
+      "week": 5,
+      "topic": "Connected Components",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Vertices $1..8$ with edges $1{-}2, 2{-}3, 4{-}5, 6{-}7, 7{-}8, 5{-}6$. How many connected components does the graph have? Enter a single integer.",
+      "numericAnswer": 2,
+      "numericTolerance": 0,
+      "explanation": "Component 1: $\\{1,2,3\\}$. Component 2: $\\{4,5,6,7,8\\}$ (via $4{-}5, 5{-}6, 6{-}7, 7{-}8$). Total $2$ components.",
+      "source": "Week05.md §4"
+    },
+    {
+      "id": "w05-q005",
+      "week": 5,
+      "topic": "Bipartite Graphs",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "Which statements about bipartite graphs are TRUE?",
+      "options": [
+        "A graph is bipartite iff it is 2-colourable.",
+        "Every tree is bipartite.",
+        "A graph containing a triangle ($K_3$) is bipartite.",
+        "A graph is bipartite iff it has no odd cycle."
+      ],
+      "answerIndices": [0, 1, 3],
+      "explanation": "2-colourability, absence of odd cycles, and bipartiteness are all equivalent. A triangle is an odd cycle of length 3, so $K_3$ is NOT bipartite (C false).",
+      "source": "Week05.md §3"
+    },
+    {
+      "id": "w05-q006",
+      "week": 5,
+      "topic": "DFS vs BFS",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "Which statement is TRUE?",
+      "options": [
+        "DFS discovers vertices in order of increasing shortest-path distance.",
+        "BFS layer order is independent of adjacency-list ordering only if the graph is a tree.",
+        "DFS uses a stack (implicitly via recursion) and BFS uses a queue.",
+        "BFS cannot detect cycles."
+      ],
+      "answerIndex": 2,
+      "explanation": "DFS is stack/recursion-based, BFS is queue-based. DFS does NOT give increasing-distance order (A false); BFS layer *membership* is order-independent for any graph, only the within-layer order varies (B false); both BFS and DFS detect cycles (D false).",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q007",
+      "week": 5,
+      "topic": "BFS / Levels",
+      "type": "NAT",
+      "difficulty": "easy",
+      "prompt": "Run BFS from an end vertex of a simple path graph $1{-}2{-}3{-}4{-}5{-}6$. How many distinct BFS levels (including level 0 for the source) are produced? Enter a single integer.",
+      "numericAnswer": 6,
+      "numericTolerance": 0,
+      "explanation": "On a path, each step advances exactly one level: levels are $\\{1\\},\\{2\\},\\{3\\},\\{4\\},\\{5\\},\\{6\\}$, i.e. $6$ levels ($0$ through $5$).",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q008",
+      "week": 5,
+      "topic": "Bipartite / 2-Colouring",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "During a BFS 2-colouring, you colour the source colour 0 and alternate colours along tree edges. If you ever find an edge whose endpoints share the same colour, the graph:",
+      "options": [
+        "Is bipartite but not connected.",
+        "Contains an odd cycle and is therefore NOT bipartite.",
+        "Contains an even cycle.",
+        "Is a tree."
+      ],
+      "answerIndex": 1,
+      "explanation": "A monochromatic edge after BFS colouring means there is a path of even length plus that edge, forming an odd cycle — exactly the obstruction to bipartiteness.",
+      "source": "Week05.md §3"
+    },
+    {
+      "id": "w05-q009",
+      "week": 5,
+      "topic": "Odd Cycles",
+      "type": "NAT",
+      "difficulty": "medium",
+      "prompt": "Consider the cycle graph $1{-}2{-}3{-}4{-}5{-}1$ (a 5-cycle). What is the length of the shortest odd cycle? Enter a single integer.",
+      "numericAnswer": 5,
+      "numericTolerance": 0,
+      "explanation": "The only cycle is the 5-cycle itself, whose length is $5$ (odd). Shorter odd cycles (length 1 or 3) do not exist here, so the shortest odd cycle has length $5$.",
+      "source": "Week05.md §3"
+    },
+    {
+      "id": "w05-q010",
+      "week": 5,
+      "topic": "BFS / Invariant",
+      "type": "MSQ",
+      "difficulty": "hard",
+      "prompt": "Which are TRUE about the BFS level invariant in an unweighted graph?",
+      "options": [
+        "All edges either connect vertices in the same level, or in levels that differ by exactly 1.",
+        "No edge can connect vertices whose levels differ by 2 or more.",
+        "When a vertex $v$ at level $d+1$ is discovered, its distance is $d+1$ and cannot be improved later.",
+        "BFS may visit a vertex multiple times to find a shorter distance."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "BFS edges stay within a level or jump by one level (A, B); discovery distance is final (C). BFS marks vertices on discovery and never revisits them (D false).",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q011",
+      "week": 5,
+      "topic": "BFS / Weighted Graphs",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "Why does plain BFS fail to find shortest paths when edges have arbitrary positive weights?",
+      "options": [
+        "Because BFS cannot use a queue.",
+        "Because BFS minimizes the number of edges, not the sum of weights, so a longer path with smaller weights may be cheaper.",
+        "Because weights are always negative.",
+        "Because weighted graphs are always directed."
+      ],
+      "answerIndex": 1,
+      "explanation": "BFS treats every edge as cost 1. With real weights, a 3-edge path of total weight 3 can beat a 1-edge path of weight 10, so BFS returns the wrong distances; Dijkstra (or 0-1 BFS for 0/1 weights) is needed.",
+      "source": "Week05.md §5"
+    },
+    {
+      "id": "w05-q012",
+      "week": 5,
+      "topic": "Traversal Trees",
+      "type": "NAT",
+      "difficulty": "hard",
+      "prompt": "A graph has $n = 8$ vertices and $c = 2$ connected components. Any BFS or DFS forest has exactly $n - c$ tree edges. What is $n - c$? Enter a single integer.",
+      "numericAnswer": 6,
+      "numericTolerance": 0,
+      "explanation": "Each spanning tree of a component with $k$ vertices has $k-1$ tree edges, and the vertices sum to $n$ across $c$ components, giving $n-c$ tree edges total: $8 - 2 = 6$.",
+      "source": "Week05.md §4"
+    },
+    {
+      "id": "w05-q013",
+      "week": 5,
+      "topic": "Multi-source BFS",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "To compute, for every vertex, the distance to the *nearest* of several sources, the standard trick is:",
+      "options": [
+        "Run BFS once per source and take the minimum, which is optimal.",
+        "Push all sources into the queue at the start with distance 0 and run one BFS.",
+        "Sort the vertices first.",
+        "Use Dijkstra with negative edges."
+      ],
+      "answerIndex": 1,
+      "explanation": "Multi-source BFS seeds the queue with all sources at distance 0 and runs a single BFS, giving each vertex its distance to the closest source in $O(V+E)$ — far better than one BFS per source.",
+      "source": "Week05.md §2"
+    },
+    {
+      "id": "w05-q014",
+      "week": 5,
+      "topic": "Graph Edge Cases",
+      "type": "MSQ",
+      "difficulty": "medium",
+      "prompt": "When implementing BFS/DFS robustly, which edge cases must be handled?",
+      "options": [
+        "Self-loops (an edge from a vertex to itself) do not affect reachability but must not cause infinite loops.",
+        "Multiple edges between the same pair of vertices (multi-edges) must not break the visited check.",
+        "Disconnected graphs require restarting traversal from every unvisited vertex to cover all components.",
+        "A single isolated vertex needs a special algorithm."
+      ],
+      "answerIndices": [0, 1, 2],
+      "explanation": "Self-loops, multi-edges, and disconnected graphs are the classic pitfalls (A, B, C). An isolated vertex is handled by the ordinary 'start from any unvisited vertex' loop — no special algorithm needed (D false).",
+      "source": "Week05.md §4"
+    },
+    {
+      "id": "w05-q015",
+      "week": 5,
+      "topic": "DFS / Implementation",
+      "type": "MCQ",
+      "difficulty": "medium",
+      "prompt": "A recursive DFS on a path-like graph with up to $10^6$ vertices may crash. Why, and what is the fix?",
+      "options": [
+        "Because of hash collisions; use a different map.",
+        "Because recursion depth can reach $10^6$, overflowing the call stack; use an explicit stack or increase the stack size.",
+        "Because integers overflow, use long long.",
+        "Because BFS uses too much memory."
+      ],
+      "answerIndex": 1,
+      "explanation": "Deep recursion consumes one stack frame per vertex and can overflow for large $n$; replacing recursion with an explicit stack (iterative DFS) or raising the stack limit fixes it.",
+      "source": "Week05.md §2"
+    }
+  ]
+}
