@@ -1,15 +1,15 @@
-// Week revision notes. Content lives once, in ../../weeks/WeekNN.md, and is
-// bundled at build time via Vite's `?raw` import — no duplicated copy to drift.
-import Week01 from "../../../weeks/Week01.md?raw";
-import Week02 from "../../../weeks/Week02.md?raw";
-import Week03 from "../../../weeks/Week03.md?raw";
-import Week04 from "../../../weeks/Week04.md?raw";
-import Week05 from "../../../weeks/Week05.md?raw";
-import Week06 from "../../../weeks/Week06.md?raw";
-import Week07 from "../../../weeks/Week07.md?raw";
-import Week08 from "../../../weeks/Week08.md?raw";
-import Week09 from "../../../weeks/Week09.md?raw";
-import Week10 from "../../../weeks/Week10.md?raw";
+// Week revision notes, bundled at build time from ./weeks/*.md via Vite's `?raw`.
+// Source of truth is ../../weeks — re-copy here when the week notes change.
+import Week01 from "./weeks/Week01.md?raw";
+import Week02 from "./weeks/Week02.md?raw";
+import Week03 from "./weeks/Week03.md?raw";
+import Week04 from "./weeks/Week04.md?raw";
+import Week05 from "./weeks/Week05.md?raw";
+import Week06 from "./weeks/Week06.md?raw";
+import Week07 from "./weeks/Week07.md?raw";
+import Week08 from "./weeks/Week08.md?raw";
+import Week09 from "./weeks/Week09.md?raw";
+import Week10 from "./weeks/Week10.md?raw";
 
 export interface Note {
   week: number;
